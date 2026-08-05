@@ -1,0 +1,38 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+
+    # Passed INTO the container. The postgres image reads exactly these three
+    # names on first boot and creates the database plus its owning role.
+    # ${...} is Compose interpolation, filled from the .env beside this file.
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+    # host:container. Postgres always listens on 5432 inside the container;
+    # the left side is the port your Mac dials, which is why it matches
+    # POSTGRES_PORT in .env.
+    ports:
+      - "${POSTGRES_PORT}:5432"
+
+    # Named volume, so the data outlives the container.
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+    # "Started" is not "ready" — postgres accepts TCP connections seconds
+    # before it will serve queries. pg_isready answers the real question, and
+    # build step 8 depends on this to gate the backend's startup.
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+# A named volume must be declared here as well as mounted above. Docker manages
+# its storage outside the container lifecycle — this is what makes the data
+# survive `docker compose down` (Bonus-3).
+volumes:
+  pgdata:
