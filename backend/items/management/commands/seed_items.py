@@ -1,4 +1,3 @@
-from pathlib import Path
 import json
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
@@ -41,17 +40,24 @@ class Command(BaseCommand):
                 value_invalid = (value is None)
 
                 if key_invalid or value_invalid:
+
                     bad_imports += 1
+
+                    
                     continue
 
+                key = key[:50] # Truncate key to just 50 characters
+
+                if isinstance(value, dict) or isinstance(value, list):
+                    value = json.dumps(value) # Convert JSON/dictionary/list to string
+
                 Items.objects.create(key=key, value=value)
+
+            if bad_imports == n_rows: # Check if none of the rows were parsed and writted to db, so that CommandError is raised and the entire transaction is rolled back
+                self.stdout.write(self.style.ERROR(f"File could not be written to database"))
+                raise CommandError("File could not be written to database. Check the format") 
 
         if bad_imports == 0:
             self.stdout.write(self.style.SUCCESS(f"File written to database sucessfully. Added {n_rows} rows"))
         elif bad_imports > 0 and bad_imports < n_rows:
             self.stdout.write(self.style.WARNING(f"File written to database but with skipped rows. {n_rows-bad_imports} written; {bad_imports} skipped."))
-        else:
-            self.stdout.write(self.style.ERROR(f"File could not be written to database"))
-            raise CommandError("File could not be written to database. Check the format") 
-
-        
