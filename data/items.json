@@ -1,0 +1,101 @@
+[
+  {
+    "key": "site_title",
+    "value": "wtvision Control Center"
+  },
+  {
+    "key": "max_upload_size_mb",
+    "value": "512",
+    "bytes": 536870912,
+    "enforced": true
+  },
+  {
+    "key": "enable_beta_dashboard",
+    "value": "false",
+    "enabled": false,
+    "rollout_percentage": 0,
+    "owner": "platform-team"
+  },
+  {
+    "key": "supported_video_codecs",
+    "value": "h264, h265, av1",
+    "codecs": ["h264", "h265", "av1", "vp9"],
+    "default_codec": "h264",
+    "hardware_accelerated": true
+  },
+  {
+    "key": "retention_policy",
+    "value": "Recorded streams are retained for 90 days, after which they are moved to cold storage and become available on request only.",
+    "days": 90,
+    "applies_to": ["recordings", "thumbnails", "transcripts"],
+    "description": "Retention is enforced by a nightly job that sweeps the recordings bucket and compares each object's creation timestamp against the configured window. Objects past the window are transitioned to the archive storage class rather than deleted outright, so a restore request remains possible for a further twelve months. Legal holds override this policy entirely and are managed outside this configuration."
+  },
+  {
+    "key": "smtp_configuration",
+    "value": "smtp.wtvision.internal:587",
+    "connection": {
+      "host": "smtp.wtvision.internal",
+      "port": 587,
+      "use_tls": true,
+      "timeout_seconds": 30
+    }
+  },
+  {
+    "key": "maintenance_window",
+    "value": "",
+    "scheduled": false,
+    "next_run": null
+  },
+  {
+    "key": "api_rate_limit",
+    "value": "1000 requests per hour",
+    "limit": 1000,
+    "window_seconds": 3600,
+    "burst_allowance": 50
+  },
+  {
+    "key": "onboarding_welcome_message",
+    "value": "Welcome to the wtvision Control Center. This dashboard brings together every configuration surface for your broadcast estate: encoder profiles, regional failover, retention rules, and the feature flags that govern what your viewers can see. Most settings take effect within sixty seconds of being saved, though changes to transcoding profiles only apply to streams started after the change. If a setting appears greyed out, it is managed centrally by your organisation's platform team and cannot be edited here. Anything you change is recorded in the audit log alongside your username and the previous value, so a rollback is always one click away. If you are new to the platform, the guided tour in the top-right corner walks through the most common tasks in about five minutes."
+  },
+  {
+    "key": "legacy_transcoder_fallback_queue_priority_level",
+    "value": "3",
+    "priority": 3,
+    "deprecated": true,
+    "removal_target": "2027-01-01"
+  },
+  {
+    "key": "feature_flags",
+    "value": "3 active, 2 disabled",
+    "flags": {
+      "live_captions": true,
+      "multi_angle_replay": true,
+      "offline_download": false,
+      "ai_highlights": true,
+      "legacy_player": false
+    },
+    "last_reviewed": "2026-07-14",
+    "reviewers": ["a.mehta", "j.oduya"]
+  },
+  {
+    "key": "default_thumbnail_url",
+    "value": "https://cdn.wtvision.example/assets/placeholder-16x9.png",
+    "dimensions": { "width": 1280, "height": 720 },
+    "cache_ttl_seconds": 86400,
+    "fallback_enabled": true
+  },
+  {
+    "key": "broadcast_regions",
+    "value": "EU-West, NA-East, APAC-South",
+    "regions": [
+      { "code": "eu-west", "latency_ms": 24, "primary": true },
+      { "code": "na-east", "latency_ms": 41, "primary": false },
+      { "code": "apac-south", "latency_ms": 118, "primary": false }
+    ],
+    "total": 3
+  },
+  {
+    "key": "player_theme_label",
+    "value": "Midnight — high contrast ✦"
+  }
+]
