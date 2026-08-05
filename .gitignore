@@ -11,5 +11,8 @@ db.sqlite3
 node_modules/
 dist/
 
+# macOS
+.DS_Store
+
 # NOTE: .env is intentionally NOT ignored — the assignment (Bonus-4)
 # requires it committed for this dummy project.
