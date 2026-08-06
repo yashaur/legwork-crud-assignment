@@ -31,6 +31,70 @@ services:
       retries: 5
       start_period: 10s
 
+  backend:
+    build: ./backend
+    restart: unless-stopped
+
+    # env_file injects the whole .env into the container; the environment
+    # block then OVERRIDES what it names (environment > env_file, always).
+    # Inside the compose network Postgres is reachable as "db", not localhost.
+    env_file: .env
+    environment:
+      POSTGRES_HOST: db
+      # Read by `createsuperuser --noinput` in the startup command below —
+      # demo credentials, called out in the README on purpose.
+      DJANGO_SUPERUSER_USERNAME: admin
+      DJANGO_SUPERUSER_PASSWORD: admin
+      DJANGO_SUPERUSER_EMAIL: admin@example.com
+
+    volumes:
+      # Live mirror of the source tree -> Django autoreload works in-container.
+      - ./backend:/app
+      # seed_items resolves BASE_DIR.parent/data -> /data inside the container;
+      # read-only because the fixture is input, never output.
+      - ./data:/data:ro
+
+    ports:
+      - "8000:8000"
+
+    # Waits for pg_isready, not merely "started" — the step-3 healthcheck
+    # finally pays off here.
+    depends_on:
+      db:
+        condition: service_healthy
+
+    # On every start: apply migrations (idempotent), ensure the demo admin
+    # exists (createsuperuser errors if it already does — || true accepts
+    # that), then serve. seed_items stays MANUAL by design: it wipes and
+    # reloads, and an automatic wipe would destroy UI edits on every restart.
+    command: >
+      sh -c "python manage.py migrate &&
+             (python manage.py createsuperuser --noinput || true) &&
+             python manage.py runserver 0.0.0.0:8000"
+
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+
+    environment:
+      # vite.config.js reads this for the proxy target; inside the network
+      # the backend's hostname is its service name.
+      API_TARGET: http://backend:8000
+
+    volumes:
+      - ./frontend:/app
+      # Anonymous volume: a deeper mount wins, so the container's Linux
+      # node_modules survive being shadowed by the Mac bind mount above.
+      - /app/node_modules
+
+    ports:
+      - "5173:5173"
+
+    depends_on:
+      - backend
+
+    command: npm run dev -- --host
+
 # A named volume must be declared here as well as mounted above. Docker manages
 # its storage outside the container lifecycle — this is what makes the data
 # survive `docker compose down` (Bonus-3).

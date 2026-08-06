@@ -32,7 +32,9 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ['DEBUG'] == "True"
 
-ALLOWED_HOSTS = []
+# "backend" is the compose-network hostname — the Vite proxy's changeOrigin
+# rewrites the Host header to it, and Django rejects unknown hosts with a 400.
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "backend"]
 
 
 # Application definition
