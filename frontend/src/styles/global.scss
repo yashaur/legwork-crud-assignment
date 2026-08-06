@@ -1,8 +1,49 @@
-// Fonts
-$font-family-base: "Sono Serif";
-$font-size-base: 10px;
+@use "variables" as *;
 
-// Colours
-$background-colour-primary: #f0d0f1;
-$background-colour-secondary: #b9b2ff;
-$font-colour-primary: #1500ff;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  line-height: 1.55;
+  color: $colour-text;
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      1100px 600px at 88% -10%,
+      rgba($colour-tint, 0.55),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 520px at -10% 110%,
+      rgba($colour-accent, 0.35),
+      transparent 55%
+    ),
+    $colour-bg;
+}
+
+input,
+textarea,
+button {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+:focus-visible {
+  outline: 3px solid rgba($colour-primary, 0.35);
+  outline-offset: 2px;
+}

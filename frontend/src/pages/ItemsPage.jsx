@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import useApi from "../api/useApi.js";
 import { fetchItems } from "../store/itemsSlice.js";
+import { logout } from "../store/authSlice.js";
 import ItemCard from "../components/ItemCard.jsx";
 import EditItemModal from "../components/EditItemModal.jsx";
+import Spinner from "../components/Spinner.jsx";
+import styles from "./ItemsPage.module.scss";
 
 export default function ItemsPage() {
   const api = useApi();
@@ -20,12 +23,17 @@ export default function ItemsPage() {
   }, [status, dispatch, api]);
 
   if (status === "loading" || status === "idle") {
-    return <p className="itemsStatus">Loading items…</p>;
+    return (
+      <div className={styles.status}>
+        <Spinner label="Loading items" />
+        <p>Loading items…</p>
+      </div>
+    );
   }
 
   if (status === "failed") {
     return (
-      <div className="itemsStatus">
+      <div className={styles.status}>
         <p>
           Could not load items{error?.status ? ` (HTTP ${error.status})` : ""}.
         </p>
@@ -36,16 +44,26 @@ export default function ItemsPage() {
 
   if (items.length === 0) {
     return (
-      <p className="itemsStatus">
-        No items yet — seed the database and refresh.
-      </p>
+      <div className={styles.status}>
+        <p>No items yet — seed the database and refresh.</p>
+      </div>
     );
   }
 
   return (
-    <main className="itemsPage">
-      <h1>Items</h1>
-      <ul className="itemsList">
+    <main className={styles.page}>
+      <header className={styles.header}>
+        <h1 className={styles.title}>Items</h1>
+        {/* logout clears state+storage; ProtectedRoute's selector bounces us */}
+        <button
+          className={styles.logout}
+          type="button"
+          onClick={() => dispatch(logout())}
+        >
+          Log out
+        </button>
+      </header>
+      <ul className={styles.grid}>
         {items.map((item) => (
           <li key={item.id}>
             <ItemCard item={item} onEdit={setEditing} />

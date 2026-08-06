@@ -1,0 +1,118 @@
+@use "../styles/variables" as *;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(20, 12, 48, 0.45);
+  backdrop-filter: blur(3px);
+  display: grid;
+  place-items: center;
+  padding: $space-4;
+}
+
+.form {
+  width: min(100%, 540px);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: $colour-surface;
+  border-radius: $radius;
+  box-shadow: $shadow-pop;
+  padding: $space-6;
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.35rem;
+  color: $colour-primary;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: $space-1;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: $colour-text-muted;
+
+  input,
+  textarea {
+    padding: $space-3;
+    border: 1px solid $colour-border;
+    border-radius: $radius-small;
+    background: #fbfaff;
+    font-weight: 400;
+    font-size: 1rem;
+    color: $colour-text;
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease;
+
+    &:focus {
+      outline: none;
+      border-color: $colour-primary;
+      box-shadow: 0 0 0 3px rgba($colour-primary, 0.15);
+    }
+  }
+
+  textarea {
+    min-height: 9rem;
+    resize: vertical;
+  }
+}
+
+.error {
+  margin: 0;
+  padding: $space-3;
+  border-radius: $radius-small;
+  background: $colour-error-bg;
+  border: 1px solid $colour-error-border;
+  color: $colour-error-text;
+  font-size: 0.9rem;
+
+  p {
+    margin: 0;
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: $space-3;
+}
+
+.save {
+  padding: $space-2 $space-5;
+  border: none;
+  border-radius: $radius-small;
+  background: $colour-primary;
+  color: #fff;
+  font-weight: 600;
+  transition: background 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background: $colour-primary-dark;
+  }
+}
+
+.cancel {
+  padding: $space-2 $space-4;
+  border: 1px solid $colour-border;
+  border-radius: $radius-small;
+  background: transparent;
+  color: $colour-text-muted;
+  transition: background 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background: rgba($colour-accent, 0.18);
+  }
+}
+
+@media (max-width: $bp-small) {
+  .form {
+    padding: $space-4;
+  }
+}

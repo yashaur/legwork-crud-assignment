@@ -1,0 +1,88 @@
+@use "../styles/variables" as *;
+
+.card {
+  height: 100%;
+  background: $colour-surface;
+  border-radius: $radius;
+  box-shadow: $shadow-card;
+  padding: $space-4;
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-pop;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: $space-2;
+}
+
+.key {
+  margin: 0;
+  font-size: 1.02rem;
+  color: $colour-primary;
+  overflow-wrap: anywhere;
+}
+
+.edit {
+  flex-shrink: 0;
+  padding: $space-1 $space-3;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px solid $colour-border;
+  border-radius: 999px;
+  background: transparent;
+  color: $colour-primary;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background: rgba($colour-accent, 0.25);
+    border-color: $colour-accent;
+  }
+}
+
+.value {
+  margin: 0;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  max-height: 10.5rem;
+  overflow-y: auto;
+}
+
+.meta {
+  margin: auto 0 0;
+  padding-top: $space-3;
+  border-top: 1px solid $colour-border;
+  display: flex;
+  flex-direction: column;
+  gap: $space-1;
+  font-size: 0.78rem;
+  color: $colour-text-muted;
+}
+
+.metaRow {
+  display: flex;
+  justify-content: space-between;
+  gap: $space-3;
+
+  dt {
+    font-weight: 600;
+  }
+
+  dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+    text-align: right;
+  }
+}

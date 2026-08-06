@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateItem } from "../store/itemsSlice.js";
+import styles from "./EditItemModal.module.scss";
 
 export default function EditItemModal({ item, api, onClose }) {
   const [draftKey, setDraftKey] = useState(item.key);
@@ -37,11 +38,11 @@ export default function EditItemModal({ item, api, onClose }) {
       : [];
 
   return (
-    <div className="modalOverlay">
-      <form className="modalForm" onSubmit={handleSubmit}>
-        <h2 className="modalTitle">Edit item</h2>
+    <div className={styles.overlay}>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <h2 className={styles.title}>Edit item</h2>
 
-        <label htmlFor="editKey">
+        <label className={styles.field} htmlFor="editKey">
           Key
           <input
             id="editKey"
@@ -50,7 +51,7 @@ export default function EditItemModal({ item, api, onClose }) {
           />
         </label>
 
-        <label htmlFor="editValue">
+        <label className={styles.field} htmlFor="editValue">
           Value
           <textarea
             id="editValue"
@@ -60,7 +61,7 @@ export default function EditItemModal({ item, api, onClose }) {
         </label>
 
         {error && (
-          <div className="modalError">
+          <div className={styles.error}>
             {fieldErrors.length > 0 ? (
               fieldErrors.map(([field, messages]) => (
                 <p key={field}>
@@ -75,11 +76,16 @@ export default function EditItemModal({ item, api, onClose }) {
           </div>
         )}
 
-        <div className="modalActions">
-          <button type="submit" disabled={saving}>
+        <div className={styles.actions}>
+          <button className={styles.save} type="submit" disabled={saving}>
             {saving ? "Saving…" : "Save"}
           </button>
-          <button type="button" onClick={onClose} disabled={saving}>
+          <button
+            className={styles.cancel}
+            type="button"
+            onClick={onClose}
+            disabled={saving}
+          >
             Cancel
           </button>
         </div>
