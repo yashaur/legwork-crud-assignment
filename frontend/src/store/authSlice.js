@@ -19,10 +19,14 @@ const authSlice = createSlice({
       state.refresh = action.payload.refresh;
       state.username = action.payload.username;
     },
-    logout: () => {
+    logout: (state) => {
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
       localStorage.removeItem("username");
+
+      state.access = null;
+      state.refresh = null;
+      state.username = null;
     },
   },
 });
