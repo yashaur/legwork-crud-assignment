@@ -1,13 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import useApi from "../api/useApi.js";
 import { fetchItems } from "../store/itemsSlice.js";
 import ItemCard from "../components/ItemCard.jsx";
+import EditItemModal from "../components/EditItemModal.jsx";
 
 export default function ItemsPage() {
   const api = useApi();
   const dispatch = useDispatch();
   const { items, status, error } = useSelector((state) => state.items);
+
+  // Which item is being edited; null = modal closed (guide 16 §3.1).
+  const [editing, setEditing] = useState(null);
 
   useEffect(() => {
     if (status === "idle") {
@@ -44,10 +48,18 @@ export default function ItemsPage() {
       <ul className="itemsList">
         {items.map((item) => (
           <li key={item.id}>
-            <ItemCard item={item} />
+            <ItemCard item={item} onEdit={setEditing} />
           </li>
         ))}
       </ul>
+
+      {editing && (
+        <EditItemModal
+          item={editing}
+          api={api}
+          onClose={() => setEditing(null)}
+        />
+      )}
     </main>
   );
 }

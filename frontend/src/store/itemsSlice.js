@@ -14,6 +14,20 @@ export const fetchItems = createAsyncThunk(
   },
 );
 
+export const updateItem = createAsyncThunk(
+  "items/updateItem",
+  async ({ api, id, changes }, { rejectWithValue }) => {
+    try {
+      return await api.patch(`/api/items/${id}/`, changes);
+    } catch (err) {
+      return rejectWithValue({
+        status: err.status ?? null,
+        body: err.body ?? null,
+      });
+    }
+  },
+);
+
 const itemsSlice = createSlice({
   name: "items",
   initialState: { items: [], status: "idle", error: null },
@@ -31,6 +45,12 @@ const itemsSlice = createSlice({
       .addCase(fetchItems.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
+      })
+      .addCase(updateItem.fulfilled, (state, action) => {
+        const i = state.items.findIndex((it) => it.id === action.payload.id);
+        if (i !== -1) {
+          state.items[i] = action.payload;
+        }
       });
   },
 });
