@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { setTokens } from "../store/authSlice";
 
 export default function LoginPage() {
@@ -10,7 +10,6 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const access = useSelector((state) => state.auth.access);
 
@@ -32,8 +31,9 @@ export default function LoginPage() {
         } else if (response.status === 502) {
           setError("Could not reach the server. Try again in some time.");
         } else {
-          setError(`The following error took place: ${response.error}`);
+          setError(`The following error took place: ${response.status}`);
         }
+        return;
       }
 
       const credentials = await response.json();
