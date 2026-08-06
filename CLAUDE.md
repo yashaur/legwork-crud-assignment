@@ -44,11 +44,11 @@ On first instruction ("build the skeleton"), create the complete folder and file
 
 When the human asks for a guide (e.g. "guide: backend items model", "guide: useApi", "guide: docker-compose"), write a markdown file to `_learning/<nn>-<topic>.md` (numbered in the order requested).
 
-**Guide depth: concepts + pseudocode ONLY.** Hard rules:
+**Guide depth: concepts + worked examples in foreign domains.** *(Amended 2026-08-06 with the human's approval; was "pseudocode only, max 2-line fragments." The concept-to-syntax gap left the human unable to write unfamiliar JS/React from prose and pushed them toward unreviewed snippets from other AI tools — defeating the learning goal this rule existed to protect.)* Hard rules:
 
-- No copy-pasteable code in the target language. Pseudocode must be language-neutral enough that it cannot be pasted and run.
+- Complete, runnable code examples are allowed and encouraged, but ONLY in domains unrelated to this project (a newsletter form, a weather API, a theme slice). An example must never be pastable into a project file and work: no items, no key/value model, no tokens/login, no project endpoints, and no project file/component names inside example code.
+- Project functionality itself is never written out in guides. Plan sections describe the project files in prose plus exact names; the human assembles them from the example patterns.
 - Exception: exact *names* the human must match are allowed and encouraged — endpoint paths, setting keys, field names, package names, and CLI commands for running tools (`python manage.py makemigrations`, `npm install`, `docker compose up`). Running tools is not writing code.
-- Tiny illustrative fragments (max ~2 lines) are allowed ONLY to explain a language concept (e.g. what spread syntax looks like), never to implement project functionality.
 
 **Required guide structure** (every guide, in this order):
 
