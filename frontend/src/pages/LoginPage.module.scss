@@ -1,0 +1,79 @@
+@use "../styles/variables" as *;
+
+.page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: $space-5;
+}
+
+.card {
+  width: min(100%, 380px);
+  background: $colour-surface;
+  border-radius: $radius;
+  box-shadow: $shadow-card;
+  padding: $space-6;
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+.title {
+  margin: 0 0 $space-2;
+  font-size: 1.6rem;
+  color: $colour-primary;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: $space-1;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: $colour-text-muted;
+
+  input {
+    padding: $space-3;
+    border: 1px solid $colour-border;
+    border-radius: $radius-small;
+    background: #fbfaff;
+    font-weight: 400;
+    font-size: 1rem;
+    color: $colour-text;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+    &:focus {
+      outline: none;
+      border-color: $colour-primary;
+      box-shadow: 0 0 0 3px rgba($colour-primary, 0.15);
+    }
+  }
+}
+
+.error {
+  margin: 0;
+  padding: $space-3;
+  border-radius: $radius-small;
+  background: $colour-error-bg;
+  border: 1px solid $colour-error-border;
+  color: $colour-error-text;
+  font-size: 0.9rem;
+}
+
+.submit {
+  padding: $space-3;
+  border: none;
+  border-radius: $radius-small;
+  background: $colour-primary;
+  color: #fff;
+  font-weight: 600;
+  transition: background 0.15s ease, transform 0.05s ease;
+
+  &:hover:not(:disabled) {
+    background: $colour-primary-dark;
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+}

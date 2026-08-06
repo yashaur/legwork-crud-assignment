@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { setTokens } from "../store/authSlice";
+import styles from "./LoginPage.module.scss";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -52,10 +53,10 @@ export default function LoginPage() {
   }
 
   return (
-    <>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="username">
+    <div className={styles.page}>
+      <form className={styles.card} onSubmit={handleSubmit}>
+        <h1 className={styles.title}>Login</h1>
+        <label className={styles.field} htmlFor="username">
           Username
           <input
             id="username"
@@ -63,7 +64,7 @@ export default function LoginPage() {
             onChange={(e) => setUsername(e.target.value)}
           />
         </label>
-        <label htmlFor="password">
+        <label className={styles.field} htmlFor="password">
           Password
           <input
             id="password"
@@ -72,11 +73,11 @@ export default function LoginPage() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
-        {error && <p>{error}</p>}
-        <button type="submit" disabled={loading}>
+        {error && <p className={styles.error}>{error}</p>}
+        <button className={styles.submit} type="submit" disabled={loading}>
           {loading ? "Logging in..." : "Log in"}
         </button>
       </form>
-    </>
+    </div>
   );
 }

@@ -1,0 +1,73 @@
+@use "../styles/variables" as *;
+
+.page {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: $space-6 $space-5;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-3;
+  margin-bottom: $space-5;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.9rem;
+  letter-spacing: -0.01em;
+  color: $colour-primary;
+}
+
+.logout {
+  padding: $space-2 $space-4;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 1px solid $colour-border;
+  border-radius: 999px;
+  background: $colour-surface;
+  color: $colour-primary;
+  transition: background 0.15s ease, border-color 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background: rgba($colour-accent, 0.25);
+    border-color: $colour-accent;
+  }
+}
+
+.grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: $space-4;
+}
+
+// Loading / failed / empty — all three share this centered layout.
+.status {
+  min-height: 60vh;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: $space-3;
+  text-align: center;
+  color: $colour-text-muted;
+  font-size: 1.05rem;
+
+  p {
+    margin: 0;
+  }
+}
+
+@media (max-width: $bp-small) {
+  .page {
+    padding: $space-4;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+}
