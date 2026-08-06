@@ -1,4 +1,4 @@
-# wtvision assignment — key-value item viewer/editor
+# key-value item viewer/editor
 
 A login-protected CRUD app for key-value items.
 
